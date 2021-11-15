@@ -27,8 +27,8 @@ export default async function sendSlackError(err: Error): Promise<void> {
 
     const attachment = {
       fallback: err.message,
-      title: err.message,
-      pretext: `${npm_package_name} (${NODE_ENV})`,
+      title: 'Error details:',
+      pretext: `NODE_ENV: ${NODE_ENV}`,
       //   title_link:
       //     'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups',
       text: err.stack !== undefined ? err.stack : err.message,
