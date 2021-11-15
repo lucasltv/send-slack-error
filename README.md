@@ -2,7 +2,7 @@
 
 Slack Error Handler
 
-- Send Slack notifications (Error handler)
+- Send Slack notifications with zero dependencies.
 
 ## Instalation
 
