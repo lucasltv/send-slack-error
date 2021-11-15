@@ -27,7 +27,6 @@ try {
 Configure your env vars:
 
 ```env
-  APP_NAME="Example app"  # default: 'CHANGE_ME'
   NODE_ENV="production"   # default: "development"
   SLACK_ENABLED = true  # default: true
   SLACK_URL = <your_slack_channel_url_string> # Required

@@ -1,13 +1,13 @@
 import {request, RequestOptions} from 'https';
 import {URL} from 'url';
 
-export async function sendSlackError(err: Error): Promise<void> {
+export default async function sendSlackError(err: Error): Promise<void> {
   console.error(err);
   try {
     const {
-      APP_NAME = 'APP_NAME_FIX_ME',
+      npm_package_name,
       NODE_ENV = 'development',
-      SLACK_CHANNEL = 'general',
+      SLACK_CHANNEL = 'errors',
       SLACK_ENABLED = 'true',
     } = process.env;
 
@@ -25,22 +25,21 @@ export async function sendSlackError(err: Error): Promise<void> {
         break;
     }
 
+    const attachment = {
+      fallback: err.message,
+      title: err.message,
+      pretext: `NODE_ENV: ${NODE_ENV}`,
+      //   title_link:
+      //     'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups',
+      text: err.stack !== undefined ? err.stack : err.message,
+      color,
+    };
+
     const params = {
-      text: `APP_NAME: ${APP_NAME}`,
+      text: npm_package_name,
       icon_emoji: 'warning',
-      username: APP_NAME,
       channel: SLACK_CHANNEL,
-      attachments: [
-        {
-          fallback: `NODE_ENV: ${NODE_ENV}`,
-          pretext: `NODE_ENV: ${NODE_ENV}`,
-          title: 'OPEN CLOUD WATCH',
-          title_link:
-            'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups',
-          text: err.stack !== undefined ? err.stack : err.message,
-          color,
-        },
-      ],
+      attachments: [attachment],
     };
     await makePostRequest(params);
   } catch (error) {
@@ -50,12 +49,12 @@ export async function sendSlackError(err: Error): Promise<void> {
 
 function makePostRequest(data: unknown) {
   return new Promise((resolve, reject) => {
-    const {SLACK_CHANNEL = 'CHANGE_ME'} = process.env;
-    if (SLACK_CHANNEL === 'CHANGE_ME') {
-      throw new Error('Please configure SLACK_CHANNEL env variable.');
+    const {SLACK_URL = 'CHANGE_ME'} = process.env;
+    if (SLACK_URL === 'CHANGE_ME') {
+      throw new Error('Please configure SLACK_URL env variable.');
     }
     const body = JSON.stringify(data);
-    const {hostname, pathname} = new URL(SLACK_CHANNEL);
+    const {hostname, pathname} = new URL(SLACK_URL);
     const options: RequestOptions = {
       hostname,
       path: pathname,
@@ -67,9 +66,9 @@ function makePostRequest(data: unknown) {
       },
     };
     const req = request(options, res => {
-      res.on('data', d => {
-        process.stdout.write(d);
-      });
+      //   res.on('data', (d) => {
+      //     process.stdout.write(d);
+      //   });
       resolve(true);
     });
     req.on('error', error => reject(error));
