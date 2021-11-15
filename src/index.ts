@@ -28,7 +28,7 @@ export default async function sendSlackError(err: Error): Promise<void> {
     const attachment = {
       fallback: err.message,
       title: err.message,
-      pretext: `NODE_ENV: ${NODE_ENV}`,
+      pretext: `${npm_package_name} (${NODE_ENV})`,
       //   title_link:
       //     'https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups',
       text: err.stack !== undefined ? err.stack : err.message,
@@ -36,7 +36,8 @@ export default async function sendSlackError(err: Error): Promise<void> {
     };
 
     const params = {
-      text: npm_package_name,
+      // text: npm_package_name,
+      text: `${npm_package_name}: ${err.message}`,
       icon_emoji: 'warning',
       channel: SLACK_CHANNEL,
       attachments: [attachment],
