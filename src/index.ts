@@ -36,7 +36,6 @@ export default async function sendSlackError(err: Error): Promise<void> {
     };
 
     const params = {
-      // text: npm_package_name,
       text: `${npm_package_name}: ${err.message}`,
       icon_emoji: 'warning',
       channel: SLACK_CHANNEL,
@@ -66,12 +65,7 @@ function makePostRequest(data: unknown) {
         'Content-Length': body.length,
       },
     };
-    const req = request(options, res => {
-      //   res.on('data', (d) => {
-      //     process.stdout.write(d);
-      //   });
-      resolve(true);
-    });
+    const req = request(options, () => resolve(true));
     req.on('error', error => reject(error));
     req.on('timeout', () => reject('TIMEOUT'));
     req.write(body);
