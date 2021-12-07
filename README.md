@@ -27,8 +27,8 @@ try {
 Configure your env vars:
 
 ```env
-  NODE_ENV="production"   # default: "development"
-  SLACK_ENABLED = true  # default: true
-  SLACK_URL = <your_slack_channel_url_string> # Required
-  SLACK_CHANNEL = 'general'  # default: general
+  NODE_ENV=production   # default: "development"
+  SLACK_ENABLED=true  # default: true
+  SLACK_URL=<your_slack_channel_url_string> # Required
+  SLACK_CHANNEL=general  # default: general
 ```
