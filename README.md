@@ -8,6 +8,10 @@ Slack Error Handler
 
 - `yarn add send-slack-error`
 
+or via npm
+
+- `npm install send-slack-error`
+
 ## USE
 
 ```javascript
@@ -27,8 +31,15 @@ try {
 Configure your env vars:
 
 ```env
-  NODE_ENV=production   # default: "development"
+  NODE_ENV=production # default: "development"
+  APP_NAME=my_app
   SLACK_ENABLED=true  # default: true
   SLACK_URL=<your_slack_channel_url_string> # Required
   SLACK_CHANNEL=general  # default: general
 ```
+
+
+## Slack notification colors by NODE_ENV:
+- NODE_ENV=production: danger (red)
+- NODE_ENV=staging: warning (yello)
+- NODE_ENV=development: good (green)
