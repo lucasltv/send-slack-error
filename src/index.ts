@@ -20,7 +20,7 @@ export default async function sendSlackError(err: Error): Promise<void> {
       case 'production':
         color = 'danger';
         break;
-      case 'homologation':
+      case 'staging':
         color = 'warning';
         break;
     }
