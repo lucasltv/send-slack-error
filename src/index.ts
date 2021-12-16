@@ -5,7 +5,7 @@ export default async function sendSlackError(err: Error): Promise<void> {
   console.error(err);
   try {
     const {
-      npm_package_name,
+      APP_NAME = '<change APP_NAME env>',
       NODE_ENV = 'development',
       SLACK_CHANNEL = 'errors',
       SLACK_ENABLED = 'true',
@@ -36,7 +36,7 @@ export default async function sendSlackError(err: Error): Promise<void> {
     };
 
     const params = {
-      text: `${npm_package_name}: ${err.message}`,
+      text: `${APP_NAME}: ${err.message}`,
       icon_emoji: 'warning',
       channel: SLACK_CHANNEL,
       attachments: [attachment],
